@@ -10,12 +10,11 @@ import {
   Row,
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Rating from '../components/Rating';
 import { fetchDetails } from '../features/productDetailsSlice';
-import { useNavigate } from 'react-router-dom';
 
 function ProductPage() {
   const navigate = useNavigate();
@@ -42,25 +41,27 @@ function ProductPage() {
       {loading ? (
         <Loader />
       ) : httpError ? (
-        <Message variant='danger'>{}</Message>
+        <Message variant='danger'>{httpError}</Message>
       ) : (
         <Row>
           <Col md={6}>
-            <Image src={product.image} alt={product.name} fluid />
+            <Image src={product?.image} alt={product?.name} fluid />
           </Col>
           <Col md={3}>
             <ListGroup variant='flush'>
               <ListGroupItem>
-                <h3> {product.name} </h3>
+                <h3> {product?.name} </h3>
               </ListGroupItem>
               <ListGroupItem>
                 <Rating
-                  value={product.rating}
-                  text={`${product.numReviews} reviews`}
+                  value={product?.rating}
+                  text={`${product?.numReviews} reviews`}
                 />
               </ListGroupItem>
-              <ListGroupItem>price: ${product.price}</ListGroupItem>
-              <ListGroupItem>description: ${product.description}</ListGroupItem>
+              <ListGroupItem>price: ${product?.price}</ListGroupItem>
+              <ListGroupItem>
+                description: ${product?.description}
+              </ListGroupItem>
             </ListGroup>
           </Col>
           <Col md={3}>
@@ -70,7 +71,7 @@ function ProductPage() {
                   <Row>
                     <Col>Price:</Col>
                     <Col>
-                      <strong>${product.price} </strong>
+                      <strong>${product?.price} </strong>
                     </Col>
                   </Row>
                 </ListGroupItem>
@@ -79,11 +80,11 @@ function ProductPage() {
                   <Row>
                     <Col>Status:</Col>
                     <Col>
-                      {product.countInStock > 0 ? 'In Stock' : 'Out Of Stock'}
+                      {product?.countInStock > 0 ? 'In Stock' : 'Out Of Stock'}
                     </Col>
                   </Row>
                 </ListGroupItem>
-                {product.countInStock > 0 && (
+                {product?.countInStock > 0 && (
                   <ListGroupItem>
                     <Row>
                       <Col>Qty</Col>
@@ -93,7 +94,7 @@ function ProductPage() {
                           value={qty}
                           onChange={(e) => setQty(e.target.value)}
                         >
-                          {[...Array(product.countInStock).keys()].map((x) => (
+                          {[...Array(product?.countInStock).keys()].map((x) => (
                             <option key={x + 1} value={x + 1}>
                               {x + 1}
                             </option>
@@ -109,7 +110,7 @@ function ProductPage() {
                     onClick={addToCartHandler}
                     className='btn-block'
                     type='button'
-                    disabled={product.countInStock === 0}
+                    disabled={product?.countInStock === 0}
                   >
                     Add To Cart
                   </Button>
