@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Product from '../components/Product';
-import { fetchProducts } from '../features/productsListSlice';
+import { fetchProducts } from '../slices/productsListSlice';
 
 function HomePage() {
   const dispatch = useDispatch();

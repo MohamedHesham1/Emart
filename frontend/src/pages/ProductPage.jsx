@@ -14,7 +14,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Rating from '../components/Rating';
-import { fetchDetails } from '../features/productDetailsSlice';
+import { fetchDetails } from '../slices/productDetailsSlice';
 
 function ProductPage() {
   const navigate = useNavigate();

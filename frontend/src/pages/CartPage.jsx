@@ -11,7 +11,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Message from '../components/Message';
-import { addToCartAsync, removeFromCart } from '../features/cartSlice';
+import { addToCartAsync, removeFromCart } from '../slices/cartSlice';
 
 const CartPage = () => {
   const params = useParams();
