@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Card,
@@ -9,27 +9,29 @@ import {
   ListGroupItem,
   Row,
 } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Rating from '../components/Rating';
-import { fetchDetails } from '../slices/productDetailsSlice';
+import { addToCart } from '../slices/cartSlice';
+import { useGetProductDetailsQuery } from '../slices/productDetailsSlice';
 
 function ProductPage() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const params = useParams();
+  const dispatch = useDispatch();
 
-  const productDetails = useSelector((state) => state.productDetails);
-  const { loading, httpError, product } = productDetails;
   const [qty, setQty] = useState(1);
 
-  useEffect(() => {
-    dispatch(fetchDetails(params.id));
-  }, [dispatch]);
+  const {
+    data: product,
+    isLoading,
+    error,
+  } = useGetProductDetailsQuery(params.id);
 
   const addToCartHandler = () => {
+    dispatch(addToCart({ ...product, qty }));
     navigate(`/cart/${params.id}?qty=${qty}`);
   };
 
@@ -38,10 +40,12 @@ function ProductPage() {
       <Link className='btn btn-light my-3' to='/'>
         Go Back
       </Link>
-      {loading ? (
+      {isLoading ? (
         <Loader />
-      ) : httpError ? (
-        <Message variant='danger'>{httpError}</Message>
+      ) : error ? (
+        <Message variant='danger'>
+          {error?.data?.message || error.error}
+        </Message>
       ) : (
         <Row>
           <Col md={5}>
@@ -107,9 +111,9 @@ function ProductPage() {
 
                 <ListGroupItem>
                   <Button
-                    onClick={addToCartHandler}
                     className='btn-block'
                     type='button'
+                    onClick={addToCartHandler}
                     disabled={product?.countInStock === 0}
                   >
                     Add To Cart

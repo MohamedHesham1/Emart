@@ -1,53 +1,32 @@
 import { createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { updateCart } from '../utils/cartUtils';
+
+const initialState = localStorage.getItem('cart')
+  ? JSON.parse(localStorage.getItem('cart'))
+  : { cartItems: [] };
 
 const cartSlice = createSlice({
   name: 'cart',
-  initialState: {
-    cartItems: [],
-  },
+  initialState,
   reducers: {
     addToCart: (state, action) => {
-      const item = action.payload;
-      const existItem = state.cartItems.find((x) => x.product === item.product);
+      const newItem = action.payload;
+      const existItem = state.cartItems.find(
+        (index) => index._id === newItem._id
+      );
+
       if (existItem) {
-        state.cartItems = state.cartItems.map((x) =>
-          x.product === existItem.product ? item : x
+        state.cartItems = state.cartItems.map((index) =>
+          index._id === existItem._id ? newItem : index
         );
       } else {
-        state.cartItems = [...state.cartItems, item];
+        state.cartItems = [...state.cartItems, newItem];
       }
-    },
-    removeFromCart: (state, action) => {
-      state.cartItems = state.cartItems.filter(
-        (x) => x.product !== action.payload
-      );
+      return updateCart(state);
     },
   },
 });
 
-export const { addToCart, removeFromCart } = cartSlice.actions;
-
-export const addToCartAsync = (id, qty) => async (dispatch, getState) => {
-  try {
-    const { data } = await axios.get(`/api/products/${id}`);
-    const item = {
-      product: data._id,
-      name: data.name,
-      image: data.image,
-      price: data.price,
-      countInStock: data.countInStock,
-      qty,
-    };
-    dispatch(addToCart(item));
-
-    localStorage.setItem(
-      'cartItems',
-      JSON.stringify(getState().cart.cartItems)
-    );
-  } catch (error) {
-    console.log(error);
-  }
-};
+export const { addToCart } = cartSlice.actions;
 
 export default cartSlice.reducer;
