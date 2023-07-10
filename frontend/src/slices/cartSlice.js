@@ -12,21 +12,26 @@ const cartSlice = createSlice({
     addToCart: (state, action) => {
       const newItem = action.payload;
       const existItem = state.cartItems.find(
-        (index) => index._id === newItem._id
+        (item) => item._id === newItem._id
       );
 
       if (existItem) {
-        state.cartItems = state.cartItems.map((index) =>
-          index._id === existItem._id ? newItem : index
+        state.cartItems = state.cartItems.map((item) =>
+          item._id === existItem._id ? newItem : item
         );
       } else {
         state.cartItems = [...state.cartItems, newItem];
       }
       return updateCart(state);
     },
+    removeFromCart: (state, action) => {
+      const id = action.payload;
+      state.cartItems = state.cartItems.filter((item) => item._id !== id);
+      return updateCart(state);
+    },
   },
 });
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeFromCart } = cartSlice.actions;
 
 export default cartSlice.reducer;
