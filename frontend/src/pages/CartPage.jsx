@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   Button,
   Card,
@@ -9,55 +9,44 @@ import {
   Row,
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Message from '../components/Message';
-import { addToCartAsync, removeFromCart } from '../slices/cartSlice';
+import { addToCart, removeFromCart } from '../slices/cartSlice';
 
 const CartPage = () => {
-  const params = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const productId = params.id;
-
-  const qty = location.search ? Number(location.search.split('=')[1]) : 1;
-
   const dispatch = useDispatch();
 
   const { cartItems } = useSelector((state) => state.cart);
 
-  useEffect(() => {
-    if (productId) {
-      dispatch(addToCartAsync(productId, qty));
-    }
-  }, [dispatch, productId, qty]);
-
-  const removeFromCartHandler = (id) => {
+  const addToCartHandler = async (product, qty) => {
+    dispatch(addToCart({ ...product, qty }));
+  };
+  const removeFromCartHandler = async (id) => {
     dispatch(removeFromCart(id));
   };
-
   const checkoutHandler = () => {
-    navigate('/login?redirect=shipping');
+    navigate('/login?redirect=/shipping');
   };
 
   return (
     <Row>
       <Col md={8}>
-        <h1>Shopping Cart</h1>
+        <h1 className='mb-4'> Shopping Cart</h1>
         {cartItems.length === 0 ? (
-          <Message>
+          <Message variant='success'>
             Your cart is empty <Link to='/'>Go Back</Link>
           </Message>
         ) : (
           <ListGroup variant='flush'>
             {cartItems.map((item) => (
-              <ListGroup.Item key={item.product}>
+              <ListGroup.Item key={item._id}>
                 <Row>
                   <Col md={2}>
                     <Image src={item.image} alt={item.name} fluid rounded />
                   </Col>
                   <Col md={3}>
-                    <Link to={`/product/${item.product}`}>{item.name}</Link>
+                    <Link to={`/product/${item._id}`}>{item.name}</Link>
                   </Col>
                   <Col md={2}>${item.price}</Col>
                   <Col md={2}>
@@ -65,9 +54,7 @@ const CartPage = () => {
                       as='select'
                       value={item.qty}
                       onChange={(e) =>
-                        dispatch(
-                          addToCartAsync(item.product, Number(e.target.value))
-                        )
+                        addToCartHandler(item, Number(e.target.value))
                       }
                     >
                       {[...Array(item.countInStock).keys()].map((x) => (
@@ -81,7 +68,7 @@ const CartPage = () => {
                     <Button
                       type='button'
                       variant='light'
-                      onClick={() => removeFromCartHandler(item.product)}
+                      onClick={() => removeFromCartHandler(item._id)}
                     >
                       <i className='fas fa-trash'></i>
                     </Button>
@@ -110,7 +97,7 @@ const CartPage = () => {
                 type='button'
                 className='btn-block'
                 disabled={cartItems.length === 0}
-                onClick={checkoutHandler}
+                onClick={addToCartHandler}
               >
                 Proceed To Checkout
               </Button>
