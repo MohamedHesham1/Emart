@@ -32,7 +32,7 @@ function ProductPage() {
 
   const addToCartHandler = () => {
     dispatch(addToCart({ ...product, qty }));
-    navigate(`/cart/${params.id}?qty=${qty}`);
+    navigate('/cart');
   };
 
   return (
