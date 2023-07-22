@@ -2,7 +2,7 @@ import { Col, Row } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Product from '../components/Product';
-import { useGetProductsQuery } from '../slices/productsListSlice';
+import { useGetProductsQuery } from '../slices/productsApiSlice';
 
 function HomePage() {
   const { data: products, isLoading, error } = useGetProductsQuery();
