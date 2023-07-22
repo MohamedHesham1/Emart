@@ -17,6 +17,7 @@ import PrivateRoute from './components/PrivateRoute';
 import CartPage from './pages/CartPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
+import OrderListPage from './pages/admin/OrderListPage';
 import OrderPage from './pages/OrderPage';
 import PaymentPage from './pages/PaymentPage';
 import PlaceOrderPage from './pages/PlaceOrderPage';
@@ -24,8 +25,6 @@ import ProductPage from './pages/ProductPage';
 import ProfilePage from './pages/ProfilePage';
 import RegisterPage from './pages/RegisterPage';
 import ShippingPage from './pages/ShippingPage';
-import { PayPalScriptProvider } from '@paypal/react-paypal-js';
-import ProfilePage from './pages/ProfilePage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -44,6 +43,7 @@ const router = createBrowserRouter(
         <Route path='/profile' element={<ProfilePage />} />
       </Route>
       <Route path='' element={<AdminRoute />}>
+        <Route path='/admin/orderlist' element={<OrderListPage />} />
       </Route>
     </Route>
   )
