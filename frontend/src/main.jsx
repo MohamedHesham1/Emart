@@ -1,3 +1,4 @@
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
@@ -11,6 +12,7 @@ import App from './App';
 import store from './app/store';
 import './assets/styles/bootstrap.custom.css';
 import './assets/styles/index.css';
+import AdminRoute from './components/AdminRoute';
 import PrivateRoute from './components/PrivateRoute';
 import CartPage from './pages/CartPage';
 import HomePage from './pages/HomePage';
@@ -19,6 +21,7 @@ import OrderPage from './pages/OrderPage';
 import PaymentPage from './pages/PaymentPage';
 import PlaceOrderPage from './pages/PlaceOrderPage';
 import ProductPage from './pages/ProductPage';
+import ProfilePage from './pages/ProfilePage';
 import RegisterPage from './pages/RegisterPage';
 import ShippingPage from './pages/ShippingPage';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
@@ -39,6 +42,8 @@ const router = createBrowserRouter(
         <Route path='/placeorder' element={<PlaceOrderPage />} />
         <Route path='/order/:id' element={<OrderPage />} />
         <Route path='/profile' element={<ProfilePage />} />
+      </Route>
+      <Route path='' element={<AdminRoute />}>
       </Route>
     </Route>
   )
