@@ -14,10 +14,11 @@ import './assets/styles/bootstrap.custom.css';
 import './assets/styles/index.css';
 import AdminRoute from './components/AdminRoute';
 import PrivateRoute from './components/PrivateRoute';
+import OrderListPage from './pages/admin/OrderListPage';
+import ProductListPage from './pages/admin/ProductListPage';
 import CartPage from './pages/CartPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
-import OrderListPage from './pages/admin/OrderListPage';
 import OrderPage from './pages/OrderPage';
 import PaymentPage from './pages/PaymentPage';
 import PlaceOrderPage from './pages/PlaceOrderPage';
@@ -44,6 +45,7 @@ const router = createBrowserRouter(
       </Route>
       <Route path='' element={<AdminRoute />}>
         <Route path='/admin/orderlist' element={<OrderListPage />} />
+        <Route path='/admin/productlist' element={<ProductListPage />} />
       </Route>
     </Route>
   )
