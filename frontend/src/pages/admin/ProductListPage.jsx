@@ -1,17 +1,40 @@
 import { Button, Col, Row, Table } from 'react-bootstrap';
-import Loader from '../../components/Loader';
-import Message from '../../components/Message';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useParams } from 'react-router-dom';
-import { useGetProductsQuery } from '../../slices/productsApiSlice';
+import { toast } from 'react-toastify';
+import Loader from '../../components/Loader';
+import Message from '../../components/Message';
+import {
+  useCreateProductMutation,
+  useGetProductsQuery,
+} from '../../slices/productsApiSlice';
 
 function ProductListPage() {
   const { id: productId } = useParams();
 
-  const { data: product, isLoading, error } = useGetProductsQuery(productId);
+  const {
+    data: product,
+    isLoading,
+    error,
+    refetch,
+  } = useGetProductsQuery(productId);
+
+  const [createProduct, { isLoading: isCreateProductLoading }] =
+    useCreateProductMutation();
 
   const deleteHandler = (id) => {
     console.log('delete', id);
+  };
+
+  const createProductHandler = async () => {
+    if (window.confirm('Are you sure you want to create a new product?')) {
+      try {
+        await createProduct(productId);
+        refetch();
+      } catch (error) {
+        toast.error(error?.data?.message || error.message);
+      }
+    }
   };
 
   return (
@@ -21,11 +44,16 @@ function ProductListPage() {
           <h1>Products </h1>
         </Col>
         <Col className='text-end'>
-          <Button className='my-3 btn-sm' variant='primary'>
+          <Button
+            className='my-3 btn-sm'
+            variant='primary'
+            onClick={createProductHandler}
+          >
             <i className='fas fa-edit'></i> Create Product
           </Button>
         </Col>
       </Row>
+      {isCreateProductLoading && <Loader />}
       {isLoading ? (
         <Loader />
       ) : error ? (
