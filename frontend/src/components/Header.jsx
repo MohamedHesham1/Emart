@@ -20,6 +20,7 @@ function Header() {
       await logoutApiCall().unwrap();
       dispatch(logout());
       navigate('/login');
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -35,16 +36,19 @@ function Header() {
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto'>
-              <LinkContainer to='/cart'>
-                <Nav.Link>
-                  <i className='fas fa-shopping-cart'></i> Cart
-                  {cartItems.length > 0 && (
-                    <Badge pill bg='danger' className='ms-1'>
-                      {cartItems.reduce((acc, item) => +acc + +item.qty, 0)}
-                    </Badge>
-                  )}
-                </Nav.Link>
-              </LinkContainer>
+              {userInfo && (
+                <LinkContainer to='/cart'>
+                  <Nav.Link>
+                    <i className='fas fa-shopping-cart'></i> Cart
+                    {cartItems.length > 0 && (
+                      <Badge pill bg='danger' className='ms-1'>
+                        {cartItems.reduce((acc, item) => +acc + +item.qty, 0)}
+                      </Badge>
+                    )}
+                  </Nav.Link>
+                </LinkContainer>
+              )}
+
               {userInfo && userInfo.isAdmin && (
                 <NavDropdown title='Admin Menu' id='adminmenu'>
                   <LinkContainer to='/admin/userlist'>
