@@ -6,6 +6,7 @@ import Loader from '../../components/Loader';
 import Message from '../../components/Message';
 import {
   useCreateProductMutation,
+  useDeleteProductMutation,
   useGetProductsQuery,
 } from '../../slices/productsApiSlice';
 
@@ -22,10 +23,6 @@ function ProductListPage() {
   const [createProduct, { isLoading: isCreateProductLoading }] =
     useCreateProductMutation();
 
-  const deleteHandler = (id) => {
-    console.log('delete', id);
-  };
-
   const createProductHandler = async () => {
     if (window.confirm('Are you sure you want to create a new product?')) {
       try {
@@ -33,6 +30,21 @@ function ProductListPage() {
         refetch();
       } catch (error) {
         toast.error(error?.data?.message || error.message);
+      }
+    }
+  };
+
+  const [deleteProduct, { isLoading: isDeleteLoading }] =
+    useDeleteProductMutation();
+
+  const deleteHandler = async (id) => {
+    if (window.confirm('Are you sure')) {
+      try {
+        await deleteProduct(id);
+        refetch();
+        toast.success('Product deleted');
+      } catch (err) {
+        toast.error(err?.data?.message || err.error);
       }
     }
   };
@@ -53,7 +65,10 @@ function ProductListPage() {
           </Button>
         </Col>
       </Row>
+
       {isCreateProductLoading && <Loader />}
+      {isDeleteLoading && <Loader />}
+
       {isLoading ? (
         <Loader />
       ) : error ? (
