@@ -17,6 +17,8 @@ import PrivateRoute from './components/PrivateRoute';
 import OrderListPage from './pages/admin/OrderListPage';
 import ProductEditPage from './pages/admin/ProductEditPage';
 import ProductListPage from './pages/admin/ProductListPage';
+import UserEditPage from './pages/admin/UserEditPage';
+import UserListPage from './pages/admin/UserListPage';
 import CartPage from './pages/CartPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
@@ -48,6 +50,8 @@ const router = createBrowserRouter(
         <Route path='/admin/orderlist' element={<OrderListPage />} />
         <Route path='/admin/productlist' element={<ProductListPage />} />
         <Route path='/admin/product/:id/edit' element={<ProductEditPage />} />
+        <Route path='/admin/userlist' element={<UserListPage />} />
+        <Route path='/admin/user/:id/edit' element={<UserEditPage />} />
       </Route>
     </Route>
   )
