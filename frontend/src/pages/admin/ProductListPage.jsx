@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Loader from '../../components/Loader';
 import Message from '../../components/Message';
+import Paginate from '../../components/Paginate';
 import {
   useCreateProductMutation,
   useDeleteProductMutation,
@@ -12,13 +13,11 @@ import {
 
 function ProductListPage() {
   const { id: productId } = useParams();
+  const { pageNumber } = useParams();
 
-  const {
-    data: product,
-    isLoading,
-    error,
-    refetch,
-  } = useGetProductsQuery(productId);
+  const { data, isLoading, error, refetch } = useGetProductsQuery({
+    pageNumber,
+  });
 
   const [createProduct, { isLoading: isCreateProductLoading }] =
     useCreateProductMutation();
@@ -87,7 +86,7 @@ function ProductListPage() {
               </tr>
             </thead>
             <tbody>
-              {product.map((product) => (
+              {data.products.map((product) => (
                 <tr key={product._id}>
                   <td>{product._id}</td>
                   <td>{product.name}</td>
@@ -118,6 +117,7 @@ function ProductListPage() {
               ))}
             </tbody>
           </Table>
+          <Paginate pages={data.pages} page={data.page} isAdmin={true} />
         </>
       )}
     </>
