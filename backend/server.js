@@ -8,6 +8,7 @@ import orderRoutes from './routes/orderRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import cors from 'cors';
 
 const PORT = process.env.PORT || 5000;
 
@@ -15,6 +16,12 @@ dotenv.config();
 connectDB();
 
 const app = express();
+
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+  })
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
