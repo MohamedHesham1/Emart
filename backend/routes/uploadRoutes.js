@@ -5,7 +5,6 @@ import multer from 'multer';
 const router = express.Router();
 
 const __dirname = path.resolve();
-console.log(__dirname);
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {

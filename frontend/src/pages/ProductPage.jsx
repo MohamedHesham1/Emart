@@ -14,8 +14,8 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import Meta from '../components/Meta';
 import Rating from '../components/Rating';
-import { IMAGE_URL } from '../constants';
 import { addToCart } from '../slices/cartSlice';
 import {
   useCreateReviewMutation,
@@ -36,14 +36,14 @@ function ProductPage() {
     isLoading,
     error,
     refetch,
-  } = useGetProductDetailsQuery(params.id);
+  } = useGetProductDetailsQuery(productId);
 
   const { userInfo } = useSelector((state) => state.auth);
 
   const [createReview, { isLoading: isProductReviewLoading }] =
     useCreateReviewMutation();
 
-  const submitHandler = async (e) => {
+  const reviewHandler = async (e) => {
     e.preventDefault();
     try {
       await createReview({
@@ -78,10 +78,11 @@ function ProductPage() {
         </Message>
       ) : (
         <>
+          <Meta title={product.name} description={product.description} />
           <Row>
             <Col md={5}>
               <Image
-                src={` ${IMAGE_URL}/${product?.image}`}
+                src={'http://localhost:5000/' + product?.image}
                 alt={product?.name}
                 fluid
               />
@@ -182,7 +183,7 @@ function ProductPage() {
                   {isProductReviewLoading && <Loader />}
 
                   {userInfo ? (
-                    <Form onSubmit={submitHandler}>
+                    <Form onSubmit={reviewHandler}>
                       <Form.Group className='my-2' controlId='rating'>
                         <Form.Label>Rating</Form.Label>
                         <Form.Control
