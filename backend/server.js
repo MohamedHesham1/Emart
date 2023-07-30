@@ -17,19 +17,9 @@ connectDB();
 
 const app = express();
 
-app.use(
-  cors({
-    origin: 'http://localhost:5173',
-  })
-);
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
-app.get('/', (req, res) => {
-  res.send('API is running...');
-});
 
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
@@ -46,7 +36,7 @@ if (process.env.NODE_ENV === 'production') {
 
   app.use(express.static(path.join(__dirname, '/frontend/dist')));
   app.get('*', (req, res) =>
-    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+    res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html'))
   );
 } else {
   const __dirname = path.resolve();
