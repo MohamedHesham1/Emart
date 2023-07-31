@@ -31,7 +31,7 @@ const getProductsById = asyncHandler(async (req, res) => {
     const adjustedProduct = {
       ...product._doc,
       // Using regex to ensure there's always only one starting '/'
-      image: product.image.replace(/^\/+/, ''),
+      image: '/' + product.image.replace(/^\/+/, ''),
     };
     res.json(adjustedProduct);
   } else {
