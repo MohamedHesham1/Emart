@@ -28,7 +28,12 @@ const getProductsById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
 
   if (product) {
-    res.json(product);
+    const adjustedProduct = {
+      ...product._doc,
+      // Using regex to ensure there's always only one starting '/'
+      image: product.image.replace(/^\/+/, ''),
+    };
+    res.json(adjustedProduct);
   } else {
     res.status(404);
     throw new Error('Resource not found');
@@ -43,7 +48,7 @@ const createProduct = asyncHandler(async (req, res) => {
     name: 'Sample name',
     price: 0,
     user: req.user._id,
-    image: 'uploads/sample.jpg',
+    image: '/uploads/sample.jpg',
     brand: 'Sample brand',
     category: 'Sample category',
     countInStock: 0,

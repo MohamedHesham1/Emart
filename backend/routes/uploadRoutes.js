@@ -42,7 +42,7 @@ router.post('/', (req, res) => {
 
     res.status(200).send({
       message: 'Image uploaded',
-      image: `uploads/${req.file.filename}`,
+      image: `/uploads/${req.file.filename}`,
     });
   });
 });

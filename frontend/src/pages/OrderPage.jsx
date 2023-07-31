@@ -70,14 +70,6 @@ function OrderPage() {
     });
   }
 
-  // TESTING ONLY! REMOVE BEFORE PRODUCTION
-  // async function onApproveTest() {
-  //   await payOrder({ orderId, details: { payer: {} } });
-  //   refetch();
-
-  //   toast.success('Payment successful');
-  // }
-
   function onError(error) {
     toast.error(error.message);
   }
@@ -162,7 +154,7 @@ function OrderPage() {
                       <Row>
                         <Col md={1}>
                           <Image
-                            src={'http://localhost:5000/' + item.image}
+                            src={item.image}
                             alt={item.name}
                             fluid
                             rounded
@@ -222,13 +214,6 @@ function OrderPage() {
                     <Loader />
                   ) : (
                     <div>
-                      {/* THIS BUTTON IS FOR TESTING! REMOVE BEFORE PRODUCTION! */}
-                      {/* <Button
-                        style={{ marginBottom: '10px' }}
-                        onClick={onApproveTest}
-                      >
-                        Test Pay Order
-                      </Button> */}
                       <div>
                         <PayPalButtons
                           createOrder={createOrder}

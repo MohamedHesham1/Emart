@@ -64,7 +64,6 @@ function ProductPage() {
     dispatch(addToCart({ ...product, qty }));
     navigate('/cart');
   };
-
   return (
     <>
       <Link className='btn btn-light my-3' to='/'>
@@ -81,11 +80,7 @@ function ProductPage() {
           <Meta title={product.name} description={product.description} />
           <Row>
             <Col md={5}>
-              <Image
-                src={'http://localhost:5000/' + product?.image}
-                alt={product?.name}
-                fluid
-              />
+              <Image src={product?.image} alt={product?.name} fluid />
             </Col>
             <Col md={4}>
               <ListGroup variant='flush'>

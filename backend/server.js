@@ -8,7 +8,6 @@ import orderRoutes from './routes/orderRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import userRoutes from './routes/userRoutes.js';
-import cors from 'cors';
 
 const PORT = process.env.PORT || 5000;
 
@@ -33,7 +32,6 @@ app.get('/api/config/paypal', (req, res) => {
 if (process.env.NODE_ENV === 'production') {
   const __dirname = path.resolve();
   app.use('/uploads', express.static('uploads'));
-
   app.use(express.static(path.join(__dirname, '/frontend/dist')));
   app.get('*', (req, res) =>
     res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html'))
