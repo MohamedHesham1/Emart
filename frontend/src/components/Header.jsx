@@ -32,7 +32,7 @@ function Header() {
       <Navbar bg='dark' variant='dark' expand='md' collapseOnSelect>
         <Container>
           <LinkContainer to='/'>
-            <Navbar.Brand>Emart</Navbar.Brand>
+            <Navbar.Brand>E-mart</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>

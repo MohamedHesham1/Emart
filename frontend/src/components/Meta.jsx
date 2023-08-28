@@ -11,7 +11,7 @@ const Meta = ({ title, description, keywords }) => {
 };
 
 Meta.defaultProps = {
-  title: 'Welcome To Emart',
+  title: 'Welcome To E-mart',
   description:
     'Embrace the future with our electronic shop, where innovation meets affordability. Shop now and upgrade your tech game!',
   keywords:
